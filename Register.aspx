@@ -7,13 +7,6 @@
     <title></title>
     <script src="https://www.google.com/recaptcha/api.js?render=6LdOeA0eAAAAAFlYY7HpLPynf4bVPCR8gTgfGJtF"></script>
     <style type="text/css">
-        .auto-style5 {
-            width: 312px;
-            height: 138px;
-        }
-        .auto-style12 {
-            height: 138px;
-        }
         .auto-style13 {
             width: 312px;
             height: 69px;
@@ -91,13 +84,15 @@
                     <tr>
                         <td class="auto-style19">Date Of Birth:</td>
                         <td class="auto-style20">
-                            <asp:TextBox ID="dob" runat="server" Width="526px" Height="30px" TextMode="Date"></asp:TextBox>
+                            <asp:TextBox ID="dob" runat="server" Width="526px" Height="30px" TextMode="Date" onchange="javascript:validateDOB()"></asp:TextBox>
+                        &nbsp;<asp:Label ID="dobErr" runat="server" Text="Required"></asp:Label>
                         </td>
                     </tr>
                     <tr>
                         <td class="auto-style17">Photo:</td>
                         <td class="auto-style18">
-                            <asp:FileUpload ID="photo" runat="server" Height="30px" Width="529px" />
+                            <asp:FileUpload ID="photo" runat="server" Height="30px" Width="529px" accept=".png,.jpg,.jpeg,.gif" />
+                        &nbsp;<asp:Label ID="photoErr" runat="server"></asp:Label>
                         </td>
                     </tr>
                     <tr>
@@ -106,13 +101,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="auto-style5" align="center">
+                        <td class="auto-style19" align="center">
                             <asp:Button ID="regbtn" runat="server" Text="Register" Width="179px" OnClick="regbtn_Click" />
                         </td>
-                        <td class="auto-style12">
+                        <td class="auto-style20">
                             <asp:Label ID="lbl_captcha" runat="server"></asp:Label>
                             <br />
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Click <a href="Login.aspx">here</a> to login</td>
                     </tr>
                 </table>
                 <br />
@@ -139,6 +137,7 @@
     document.getElementById("fnameerr").style.color = "Red";
     document.getElementById("lnameerr").style.color = "Red";
     document.getElementById("ccerr").style.color = "Red";
+    document.getElementById("dobErr").style.color = "Red";
 
     function validatePassword() {
         var str = document.getElementById("<%=password.ClientID %>").value;
@@ -199,6 +198,15 @@
             }
         } else {
             document.getElementById("ccerr").innerHTML = "Required";
+        }
+    }
+
+    function validateDOB() {
+        var str = document.getElementById("<%=dob.ClientID %>").value;
+        if (str == "") {
+            document.getElementById("dobErr").innerHTML = "Required";
+        } else {
+            document.getElementById("dobErr").innerHTML = "";
         }
     }
 </script>

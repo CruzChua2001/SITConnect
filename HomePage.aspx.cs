@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,6 +10,7 @@ namespace SITConnect
 {
     public partial class HomePage : System.Web.UI.Page
     {
+        string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             Console.WriteLine("Test1");
@@ -21,7 +23,30 @@ namespace SITConnect
                 }
                 else
                 {
-                    
+                    SqlConnection connection = new SqlConnection(MYDBConnectionString);
+                    string sql = "select * FROM Account WHERE Email=@USERID";
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    command.Parameters.AddWithValue("@USERID", Session["EmailLogin"]);
+
+                    try
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if(reader["Photo"] != null)
+                                {
+                                    photoIMG.ImageUrl = "Image/" + reader["Photo"].ToString();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.ToString());
+                    }
+                    finally { connection.Close(); }
                 }
             }
             else

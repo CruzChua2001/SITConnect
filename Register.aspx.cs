@@ -75,8 +75,7 @@ namespace SITConnect
             var Password = HttpUtility.HtmlEncode(password.Text);
             var DOB = HttpUtility.HtmlEncode(dob.Text);
             int scores = checkPassword(Password);
-            string strFileName = Path.GetFileName(photo.PostedFile.FileName);
-            photo.SaveAs(Server.MapPath("Image/" + strFileName));
+            
             
 
             string status = "";
@@ -153,11 +152,19 @@ namespace SITConnect
                 }
                 else if(Email == "")
                 {
-                    emailErr.Text = "Please do not leave blank";
+                    emailErr.Text = "Please upload an image";
                     emailErr.ForeColor = System.Drawing.Color.Red;
+                }
+                else if (!photo.HasFile)
+                {
+                    photoErr.Text = "Please do not leave blank";
+                    photoErr.ForeColor = System.Drawing.Color.Red;
                 }
                 else
                 {
+                    string strFileName = Path.GetFileName(photo.PostedFile.FileName);
+                    photo.SaveAs(Server.MapPath("Image/" + strFileName));
+
                     RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                     byte[] saltByte = new byte[8];
 
@@ -181,7 +188,7 @@ namespace SITConnect
                     {
                         using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                         {
-                            using (SqlCommand cmd = new SqlCommand("INSERT INTO Account Values(@Fname, @Lname, @CreditCard, @Email, @PasswordHash, @PasswordSalt, @DOB, @Photo, @IV, @Key)"))
+                            using (SqlCommand cmd = new SqlCommand("INSERT INTO Account Values(@Fname, @Lname, @CreditCard, @Email, @PasswordHash, @PasswordSalt, @DOB, @Photo, @IV, @Key, @Attempt, @LockoutTime)"))
                             {
                                 cmd.CommandType = CommandType.Text;
                                 cmd.Parameters.AddWithValue("@Fname", first_name);
@@ -194,6 +201,8 @@ namespace SITConnect
                                 cmd.Parameters.AddWithValue("@Photo", strFileName);
                                 cmd.Parameters.AddWithValue("@IV", Convert.ToBase64String(IV));
                                 cmd.Parameters.AddWithValue("@Key", Convert.ToBase64String(Key));
+                                cmd.Parameters.AddWithValue("@Attempt", 3);
+                                cmd.Parameters.AddWithValue("@LockoutTime", DBNull.Value);
                                 cmd.Connection = con;
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -205,6 +214,8 @@ namespace SITConnect
                     {
                         throw new Exception(ex.ToString());
                     }
+
+
                     
                     Response.Redirect("Login.aspx", false);
                 }

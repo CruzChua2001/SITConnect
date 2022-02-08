@@ -10,6 +10,12 @@
     <form id="form1" runat="server">
         <div>
             Welcome to homepage.
+            <br />
+            Click <a href="ChangePassword.aspx">here</a> to change password
+
+            <br />
+            <br />
+            <asp:Image ID="photoIMG" runat="server" />
 
             <br />
             <br />

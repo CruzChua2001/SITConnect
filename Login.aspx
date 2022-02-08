@@ -58,6 +58,9 @@
                         <asp:Label ID="errorMsg" runat="server"></asp:Label>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2">Click <a href="Register.aspx">here</a> to register</td>
+                </tr>
             </table>
 
         </fieldset>

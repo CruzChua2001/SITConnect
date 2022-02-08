@@ -123,6 +123,15 @@ namespace SITConnect
         protected global::System.Web.UI.WebControls.TextBox dob;
 
         /// <summary>
+        /// dobErr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label dobErr;
+
+        /// <summary>
         /// photo control.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,15 @@ namespace SITConnect
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload photo;
+
+        /// <summary>
+        /// photoErr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label photoErr;
 
         /// <summary>
         /// regbtn control.
