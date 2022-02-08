@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static SITConnect.Register;
 
 namespace SITConnect
 {
@@ -59,7 +63,10 @@ namespace SITConnect
                         if (userHash.Equals(dbHash))
                         {
                             //password and email match and have attempt available
-                            validUser(email);
+                            if (ValidateCaptcha())
+                            {
+                                validUser(email);
+                            }
 
                         }
                         //password is invalid but email is valid
@@ -141,6 +148,37 @@ namespace SITConnect
                 throw new Exception(ex.ToString());
             }
             finally { }
+        }
+
+        public bool ValidateCaptcha()
+        {
+            bool result = true;
+
+            string captchaResponse = Request.Form["g-recaptcha-response"];
+
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=6LdOeA0eAAAAAKJaaPnfmJAvV4cb1UI8KpUB3mfA &response=" + captchaResponse);
+
+            try
+            {
+                using (WebResponse wResponse = req.GetResponse())
+                {
+                    using (StreamReader readStream = new StreamReader(wResponse.GetResponseStream()))
+                    {
+                        string jsonResponse = readStream.ReadToEnd();
+
+                        JavaScriptSerializer js = new JavaScriptSerializer();
+
+                        MyObject jsonObject = js.Deserialize<MyObject>(jsonResponse);
+
+                        result = Convert.ToBoolean(jsonObject.success);
+                    }
+                }
+                return result;
+            }
+            catch (WebException ex)
+            {
+                throw ex;
+            }
         }
 
         protected string getDBHash(string email)

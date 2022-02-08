@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdOeA0eAAAAAFlYY7HpLPynf4bVPCR8gTgfGJtF"></script>
     <style type="text/css">
         .auto-style1 {
             width: 100%;
@@ -59,11 +60,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Click <a href="Register.aspx">here</a> to register</td>
+                    <td>Click <a href="Register.aspx">here</a> to register</td>
+                    <td><asp:Label ID="lbl_captcha" runat="server"></asp:Label> <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" /></td>
                 </tr>
             </table>
 
         </fieldset>
     </form>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LdOeA0eAAAAAFlYY7HpLPynf4bVPCR8gTgfGJtF', { action: 'Login' }).then(function (token) {
+                document.getElementById("g-recaptcha-response").value = token;
+            });
+        });
+    </script>
 </body>
 </html>
