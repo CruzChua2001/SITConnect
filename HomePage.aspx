@@ -15,7 +15,7 @@
 
             <br />
             <br />
-            <asp:Image ID="photoIMG" runat="server" />
+            <asp:Image ID="photoIMG" runat="server" Height="200px" Width="200px"/>
 
             <br />
             <br />

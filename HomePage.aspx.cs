@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,6 +13,8 @@ namespace SITConnect
     public partial class HomePage : System.Web.UI.Page
     {
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
+        byte[] Key;
+        byte[] IV;
         protected void Page_Load(object sender, EventArgs e)
         {
             Console.WriteLine("Test1");
@@ -47,6 +51,7 @@ namespace SITConnect
                         throw new Exception(ex.ToString());
                     }
                     finally { connection.Close(); }
+
                 }
             }
             else
@@ -76,5 +81,7 @@ namespace SITConnect
                 Response.Cookies["AuthToken"].Expires = DateTime.Now.AddMonths(-20);
             }
         }
+
+
     }
 }
