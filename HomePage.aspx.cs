@@ -77,7 +77,7 @@ namespace SITConnect
 
             if(Request.Cookies["AuthToken"] != null)
             {
-                Response.Cookies["Authtoken"].Value = string.Empty;
+                Response.Cookies["AuthToken"].Value = string.Empty;
                 Response.Cookies["AuthToken"].Expires = DateTime.Now.AddMonths(-20);
             }
         }
