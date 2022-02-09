@@ -152,12 +152,12 @@ namespace SITConnect
                 }
                 else if(Email == "")
                 {
-                    emailErr.Text = "Please upload an image";
+                    emailErr.Text = "Please do not leave blank";
                     emailErr.ForeColor = System.Drawing.Color.Red;
                 }
                 else if (!photo.HasFile)
                 {
-                    photoErr.Text = "Please do not leave blank";
+                    photoErr.Text = "Please upload an image";
                     photoErr.ForeColor = System.Drawing.Color.Red;
                 }
                 else

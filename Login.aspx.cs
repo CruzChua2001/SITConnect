@@ -40,6 +40,7 @@ namespace SITConnect
                     string pwdWithSalt = password + dbSalt;
                     byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
                     string userHash = Convert.ToBase64String(hashWithSalt);
+                      
 
                     //email is in lockout
                     if (Attempts(email) <= 0)
@@ -485,5 +486,7 @@ namespace SITConnect
             var i = lockouttime - DateTime.Now;
             return (int)i.TotalMinutes;
         }
+
+        
     }
 }

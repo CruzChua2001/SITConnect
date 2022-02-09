@@ -143,24 +143,24 @@
         var str = document.getElementById("<%=password.ClientID %>").value;
         document.getElementById("passwordErr").style.color = "Red";
         if (str.length < 12) {
-            document.getElementById("passwordErr").innerHTML = "Password length must be at least 12 characters";
+            document.getElementById("passwordErr").innerHTML = "Very Weak: Password length must be at least 12 characters";
         } else if (str.search(/[0-9]/) == -1){
-            document.getElementById("passwordErr").innerHTML = "Password requre at least 1 numeral";
+            document.getElementById("passwordErr").innerHTML = "Weak: Password requre at least 1 numeral";
         } else if (str.search(/[a-z]/) == -1) {
-            document.getElementById("passwordErr").innerHTML = "Password requre at least 1 lowercase alphabet";
+            document.getElementById("passwordErr").innerHTML = "Weak: Password requre at least 1 lowercase alphabet";
         } else if (str.search(/[A-Z]/) == -1) {
-            document.getElementById("passwordErr").innerHTML = "Password requre at least 1 uppercase alphabet";
+            document.getElementById("passwordErr").innerHTML = "Good: Password requre at least 1 uppercase alphabet";
         } else if (str.search(/[\W_]/) == -1) {
-            document.getElementById("passwordErr").innerHTML = "Password requre at least 1 special character";
+            document.getElementById("passwordErr").innerHTML = "Good: Password requre at least 1 special character";
         } else {
-            document.getElementById("passwordErr").innerHTML = "";
+            document.getElementById("passwordErr").innerHTML = "Excellent";
         }
     }
 
     function validateEmail() {
         var str = document.getElementById("<%=email.ClientID %>").value;
         document.getElementById("emailErr").style.color = "Red";
-        var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+        var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (str.match(pattern)) {
             document.getElementById("emailErr").innerHTML = "";
         } else if (str.length == 0) {
@@ -190,14 +190,12 @@
 
     function validateCredit() {
         var str = document.getElementById("<%=ccno.ClientID %>").value;
-        if (str.length == 16) {
-            if (str.match(/^[0-9]+$/)) {
-                document.getElementById("ccerr").innerHTML = "";
-            } else {
-                document.getElementById("ccerr").innerHTML = "Only number is accepted";
-            }
+        if (!str.match(/^[0-9]+$/)) {
+            document.getElementById("ccerr").innerHTML = "Only number is accepted";
+        }else if (str.length != 16) {
+            document.getElementById("ccerr").innerHTML = "Must be 16 digit";
         } else {
-            document.getElementById("ccerr").innerHTML = "Required";
+            document.getElementById("ccerr").innerHTML = "";
         }
     }
 
